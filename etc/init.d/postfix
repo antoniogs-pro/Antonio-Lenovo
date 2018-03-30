@@ -13,7 +13,7 @@
 # Should-Stop:       postgresql mysql clamav-daemon postgrey spamassassin saslauthd dovecot
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: start and stop the Postfix Mail Transport Agent
+# Short-Description: Postfix Mail Transport Agent
 # Description:       postfix is a Mail Transport agent
 ### END INIT INFO
 
@@ -46,11 +46,12 @@ running() {
     fi
 
     queue=$($POSTCONF -h queue_directory 2>/dev/null || echo /var/spool/postfix)
+    daemondir=$($POSTCONF -h daemon_directory 2>/dev/null || echo /usr/lib/postfix/sbin)
     if [ -f ${queue}/pid/master.pid ]; then
 	pid=$(sed 's/ //g' ${queue}/pid/master.pid)
 	# what directory does the executable live in.  stupid prelink systems.
 	dir=$(ls -l /proc/$pid/exe 2>/dev/null | sed 's/.* -> //; s/\/[^\/]*$//')
-	if [ "X$dir" = "X/usr/lib/postfix" ]; then
+	if [ "X$dir" = "X${daemondir}" ]; then
 	    echo y
 	fi
     fi
@@ -109,7 +110,7 @@ configure_instance() {
 		    fi
 		    mkdir --parent ${dest_dir}
 		    # handle files in subdirectories
-		    (cd "$ca_path" && find . -name '*.pem' -print0 | cpio -0pdL --quiet "$dest_dir") 2>/dev/null || 
+		    (cd "$ca_path" && find . -name '*.pem' -not -xtype l -print0 | cpio -0pdL --quiet "$dest_dir") 2>/dev/null ||
 		        (log_failure_msg failure copying certificates; exit 1)
 		    c_rehash "$dest_dir" >/dev/null 2>&1
 		    if [ "$new" = 1 ]; then
@@ -135,7 +136,14 @@ configure_instance() {
 		;;
 	    *)
 		if test -f "$ca_file"; then
-		    dest_dir="$queue_dir/${ca_path#/}"
+		    dest_file="$queue_dir/${ca_file#/}"
+                    if [ -d "${dest_file}" ]; then
+                        # There was a bug where we created the dest_file as a
+                        # directory.  Address that by removing it with
+                        # prejudice.  Debian bug #815906
+                        rm -rf "${dest_file}"
+                    fi
+                    dest_dir="${dest_file%/*}"
 		    mkdir --parent "$dest_dir"
 		    cp -L "$ca_file" "$dest_dir"
 		fi
@@ -152,7 +160,7 @@ configure_instance() {
 	fi
 
 	FILES="etc/localtime etc/services etc/resolv.conf etc/hosts \
-	    etc/nsswitch.conf etc/nss_mdns.config"
+	    etc/host.conf etc/nsswitch.conf etc/nss_mdns.config"
 	for file in $FILES; do
 	    [ -d ${file%/*} ] || mkdir -p ${file%/*}
 	    if [ -f /${file} ]; then rm -f ${file} && cp /${file} ${file}; fi
@@ -171,7 +179,7 @@ configure_instance() {
 	done)
 
 	if [ -n "$LIBLIST" ]; then
-	    for f in "$LIBLIST"; do
+	    for f in $LIBLIST; do
 		rm -f "$f"
 	    done
 	    tar cf - -C / $LIBLIST 2>/dev/null |tar xf -
