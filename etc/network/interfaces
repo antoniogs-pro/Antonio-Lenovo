@@ -1,0 +1,23 @@
+auto lo
+iface lo inet loopback
+auto eth0 
+iface eth0 inet dhcp
+#up ethtools -s eth0 wol g
+#
+#auto eth1
+#iface eth1 inet dhcp
+# up ethtools -s eth1 wol g
+
+#iface eth1 inet static
+# address 10.1.20.7
+# netmask 255.255.252.0
+# gateway 10.1.20.1
+ dns-nameservers  8.8.8.8
+
+#
+# dns-nameservers 192.168.5.102 150.214.186.69 193.147.175.20
+#dns-nameservers 192.168.5.102 150.214.186.69 193.147.175.20 8.8.8.8
+#
+#dns-search us.es.
+#dns-search int. us.es.
+#
