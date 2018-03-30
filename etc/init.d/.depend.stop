@@ -1,0 +1,17 @@
+TARGETS = apache-htcacheclean whoopsie uuidd vmamqpd samba-ad-dc unattended-upgrades cgmanager nmbd vmware-USBArbitrator apache2 resolvconf alsa-utils ebtables vmware thermald pcscd irqbalance virtlockd postfix gdomap cgproxy atd speech-dispatcher fail2ban ntp kerneloops osspd bluetooth lightdm openvpn cups-browsed saned libvirt-guests smbd plymouth urandom ufw libvirt-bin cups virtlogd avahi-daemon sendsigs rsyslog umountnfs.sh hwclock.sh networking umountfs cryptdisks cryptdisks-early umountroot halt reboot
+ufw: fail2ban
+libvirt-bin: libvirt-guests
+cups: smbd
+virtlogd: libvirt-bin
+avahi-daemon: cups-browsed libvirt-bin saned
+sendsigs: uuidd virtlogd cups-browsed apache2 avahi-daemon samba-ad-dc libvirt-guests bluetooth apache-htcacheclean libvirt-bin unattended-upgrades lightdm thermald plymouth pcscd openvpn irqbalance virtlockd postfix gdomap smbd alsa-utils nmbd atd speech-dispatcher fail2ban osspd
+rsyslog: virtlogd cups-browsed apache2 avahi-daemon bluetooth apache-htcacheclean libvirt-bin vmware thermald pcscd openvpn irqbalance virtlockd postfix gdomap sendsigs atd speech-dispatcher fail2ban ntp kerneloops whoopsie cups saned osspd
+umountnfs.sh: uuidd virtlogd sendsigs cups-browsed apache2 avahi-daemon samba-ad-dc libvirt-guests bluetooth apache-htcacheclean libvirt-bin unattended-upgrades lightdm thermald plymouth pcscd openvpn irqbalance virtlockd postfix gdomap smbd alsa-utils nmbd rsyslog atd speech-dispatcher fail2ban osspd
+hwclock.sh: uuidd cups-browsed rsyslog atd
+networking: cups-browsed apache2 vmamqpd samba-ad-dc lightdm vmware openvpn postfix smbd umountnfs.sh nmbd fail2ban
+umountfs: uuidd virtlogd cups-browsed apache2 avahi-daemon samba-ad-dc libvirt-guests bluetooth hwclock.sh apache-htcacheclean libvirt-bin unattended-upgrades lightdm thermald urandom plymouth pcscd openvpn irqbalance virtlockd postfix resolvconf gdomap smbd umountnfs.sh alsa-utils networking nmbd atd ebtables speech-dispatcher fail2ban osspd
+cryptdisks: umountfs
+cryptdisks-early: cryptdisks umountfs
+umountroot: cryptdisks cryptdisks-early umountfs
+halt: umountroot
+reboot: umountroot
