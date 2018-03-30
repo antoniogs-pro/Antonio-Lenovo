@@ -49,8 +49,8 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-PasswordAuthentication no
-
+#PasswordAuthentication no
+PasswordAuthentication yes
 # Kerberos options
 #KerberosAuthentication no
 #KerberosGetAFSToken no
@@ -88,31 +88,36 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
-MaxAuthTries 2
+MaxAuthTries 6
 #
 #
-AllowUsers  antonio,test
-AllowGroups sshusers,sftpusers
+#AllowUsers  antonio,test,mama
+#AllowGroups sshusers,sftpusers
 #
 #
-Match User antonio
- PasswordAuthentication yes
- X11Forwarding yes
- AllowTCPForwarding yes
+#Match User antonio
+# PasswordAuthentication yes
+# X11Forwarding yes
+# AllowTCPForwarding yes
+#
+#Match User mama
+# PasswordAuthentication yes
+# X11Forwarding yes
+# AllowTCPForwarding no
 #
 Match User test
  PasswordAuthentication yes
  ForceCommand /bin/echo " Bienvenido, $USER , test de conexión superado, cerrando conexion " && sleep 10
 #
-Match Group sshusers
-# ChrootDirectory /home/jail/home
- PasswordAuthentication yes
- AllowTcpForwarding no
-#
+#Match Group sshusers
+## ChrootDirectory /home/jail/home
+# PasswordAuthentication yes
+# AllowTcpForwarding no
+##
 #Match Group sftpusers
- ChrootDirectory /home/
- PasswordAuthentication yes
- AllowTcpForwarding no
+# ChrootDirectory /home/
+# PasswordAuthentication yes
+# AllowTcpForwarding no
 # ForceCommand internal-sftp
 #
 
