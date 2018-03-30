@@ -88,17 +88,17 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
-MaxAuthTries 6
+MaxAuthTries 3
 #
 #
 #AllowUsers  antonio,test,mama
 #AllowGroups sshusers,sftpusers
 #
 #
-#Match User antonio
-# PasswordAuthentication yes
-# X11Forwarding yes
-# AllowTCPForwarding yes
+Match User antonio
+ PasswordAuthentication yes
+ X11Forwarding yes
+ AllowTCPForwarding yes
 #
 #Match User mama
 # PasswordAuthentication yes
@@ -111,12 +111,12 @@ Match User test
 #
 #Match Group sshusers
 ## ChrootDirectory /home/jail/home
-# PasswordAuthentication yes
+# PasswordAuthentication no
 # AllowTcpForwarding no
-##
+#
 #Match Group sftpusers
 # ChrootDirectory /home/
-# PasswordAuthentication yes
+# PasswordAuthentication no
 # AllowTcpForwarding no
 # ForceCommand internal-sftp
 #
