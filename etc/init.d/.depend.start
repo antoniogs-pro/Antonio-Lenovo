@@ -1,10 +1,11 @@
-TARGETS = uuidd rsyslog vmamqpd samba-ad-dc unattended-upgrades cgmanager nmbd dns-clean killprocs vmware-USBArbitrator apport binfmt-support apache2 single virtlogd dbus vmware thermald pcscd irqbalance virtlockd postfix gdomap cgproxy atd speech-dispatcher fail2ban ntp kerneloops acpid anacron ssh rsync osspd avahi-daemon bluetooth lightdm cron openvpn cups-browsed libvirt-bin cups saned libvirt-guests smbd plymouth grub-common rc.local ondemand
+TARGETS = uuidd rsyslog vmamqpd samba-ad-dc unattended-upgrades cgmanager nmbd dns-clean killprocs vmware-USBArbitrator apport binfmt-support apache2 single virtlogd dbus vmware osspd thermald pcscd irqbalance virtlockd postfix gdomap cgproxy atd speech-dispatcher fail2ban ntp kerneloops acpid anacron ssh rsync avahi-daemon bluetooth lightdm cron openvpn cups-browsed libvirt-bin cups saned libvirt-guests smbd plymouth grub-common rc.local ondemand
 INTERACTIVE = apache2 openvpn
 apache2: rsyslog
 single: killprocs dns-clean
 virtlogd: rsyslog
 dbus: rsyslog
 vmware: rsyslog
+osspd: rsyslog
 thermald: rsyslog
 pcscd: rsyslog
 irqbalance: rsyslog
@@ -21,7 +22,6 @@ acpid: rsyslog
 anacron: rsyslog
 ssh: rsyslog
 rsync: rsyslog
-osspd: rsyslog
 avahi-daemon: dbus rsyslog
 bluetooth: rsyslog dbus
 lightdm: dbus acpid
@@ -33,7 +33,7 @@ cups: rsyslog
 saned: rsyslog dbus
 libvirt-guests: libvirt-bin
 smbd: cups nmbd
-plymouth: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support osspd
-grub-common: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support osspd
-rc.local: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support osspd
-ondemand: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support osspd
+plymouth: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware osspd thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support
+grub-common: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware osspd thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support
+rc.local: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware osspd thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support
+ondemand: uuidd virtlogd rsyslog cups-browsed apache2 vmamqpd avahi-daemon dbus samba-ad-dc libvirt-guests libvirt-bin bluetooth unattended-upgrades lightdm vmware osspd thermald pcscd openvpn irqbalance virtlockd postfix gdomap smbd cups cgproxy cgmanager nmbd atd speech-dispatcher fail2ban ntp kerneloops dns-clean saned cron vmware-USBArbitrator acpid anacron apport ssh rsync binfmt-support
